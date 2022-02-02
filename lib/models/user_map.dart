@@ -20,18 +20,43 @@ class UserMap {
 }
 
 class UserMaps with ChangeNotifier {
-  var currentStateSelected = 'AK';
-  var currentId = '1';
-  final List<UserMap> _userMaps = [
+  var currentStateSelected;
+  var currentId;
+  List<UserMap> _userMaps = [
     UserMap(
       'New Map',
-      '1',
+      UniqueKey().toString(),
       [],
     ),
   ];
 
+  UserMaps(this.currentStateSelected, this.currentId, this._userMaps);
+
   List<UserMap> get maps {
     return [..._userMaps];
+  }
+
+  updateUserMaps(UserMaps newUserMaps) {
+    currentStateSelected = newUserMaps.currentStateSelected;
+    currentId = newUserMaps.currentId;
+    _userMaps = newUserMaps._userMaps;
+    notifyListeners();
+  }
+
+  String getUserMapName(String mapId) {
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    return userMap.title;
+  }
+
+  String getNumberOfStatesSelected(String mapId) {
+    var statesVisitedCounter = 0;
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateStatus']![0] == 'visited') {
+        statesVisitedCounter++;
+      }
+    }
+    return statesVisitedCounter.toString();
   }
 
   String getStateStatus(String stateName, String mapId) {
@@ -44,7 +69,7 @@ class UserMaps with ChangeNotifier {
     return 'unvisited';
   }
 
-  Object getStateTags(String stateName, String mapId) {
+  List getStateTags(String stateName, String mapId) {
     final userMap = _userMaps.firstWhere((map) => map.id == mapId);
     for (var i = 0; i < userMap.statesInfoList.length; i++) {
       if (userMap.statesInfoList[i]['stateName']![0].toString() == stateName) {
@@ -52,7 +77,7 @@ class UserMaps with ChangeNotifier {
         return userMap.statesInfoList[i]['stateTags']!;
       }
     }
-    return '';
+    return [];
   }
 
   addStateTag(String stateName, String tagName, String mapId) {
@@ -65,14 +90,43 @@ class UserMaps with ChangeNotifier {
     }
   }
 
+  deleteStateTag(String stateName, String tagName, String mapId) {
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateName']?[0].toString() == stateName) {
+        print(userMap.statesInfoList[i]['stateTags']);
+        userMap.statesInfoList[i]['stateTags']!.remove(tagName);
+        print(userMap.statesInfoList[i]['stateTags']);
+        notifyListeners();
+      }
+    }
+  }
+
   addUserMap() {
     _userMaps.add(
       UserMap(
         'New Map',
-        (_userMaps.length + 1).toString(),
+        UniqueKey().toString(),
         [],
       ),
     );
+    notifyListeners();
+  }
+
+  deleteUserMap(String mapId) {
+    if (_userMaps.length > 1) {
+      _userMaps.removeWhere((userMap) => userMap.id == mapId);
+      notifyListeners();
+    }
+  }
+
+  int getUserMapsCount() {
+    return _userMaps.length;
+  }
+
+  changeUserMapName(String mapId, String newTitle) {
+    final userMap = _userMaps.firstWhere((userMap) => userMap.id == mapId);
+    userMap.title = newTitle;
     notifyListeners();
   }
 
@@ -81,14 +135,49 @@ class UserMaps with ChangeNotifier {
     return userMap.statesInfoList;
   }
 
-  addSelectedState(String stateName, String stateStatus, String mapId) {
+  updateStateRating(String stateName, String stateRating, String mapId) {
     final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateName']![0] == stateName) {
+        userMap.statesInfoList[i]['stateRating']![0] = stateRating;
+        notifyListeners();
+      }
+    }
+  }
+
+  String getStateRating(String stateName, String mapId) {
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateName']![0] == stateName) {
+        return userMap.statesInfoList[i]['stateRating']![0].toString();
+      }
+    }
+    return '0';
+  }
+
+  addSelectedState(
+      String stateName, String stateStatus, String mapId, String? stateRating) {
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateName']![0] == stateName) {
+        notifyListeners();
+        return;
+      }
+    }
+
+    var rating;
+    if (stateRating != null) {
+      rating = stateRating;
+    } else {
+      rating = 0;
+    }
     Map<String, List> newState = {
       'stateName': [stateName],
       'stateStatus': [stateStatus],
+      'stateRating': [rating],
       'stateTags': [],
     };
-
+/*
     for (var i = 0; i < userMap.statesInfoList.length; i++) {
       if (userMap.statesInfoList[i]['stateName']![0] == stateName) {
         if (userMap.statesInfoList[i]['stateStatus']![0] == 'unvisited') {
@@ -100,8 +189,21 @@ class UserMaps with ChangeNotifier {
         return;
       }
     }
+*/
+
     userMap.statesInfoList.add(newState);
     notifyListeners();
+  }
+
+  updateStateStatus(String mapId, String stateName, String stateStatus) {
+    final userMap = _userMaps.firstWhere((map) => map.id == mapId);
+    for (var i = 0; i < userMap.statesInfoList.length; i++) {
+      if (userMap.statesInfoList[i]['stateName']![0] == stateName) {
+        userMap.statesInfoList[i]['stateStatus']![0] = stateStatus;
+        notifyListeners();
+        return;
+      }
+    }
   }
 
   int count() {

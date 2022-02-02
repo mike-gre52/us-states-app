@@ -30,6 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.2
+  path_provider: ^2.0.8
+  auto_size_text: ^3.0.0
+
+
 
 
 
@@ -60,10 +64,58 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
+  assets:
+  - assets/flags/alabama.png
+  - assets/flags/alaska.png
+  - assets/flags/arizona.png
+  - assets/flags/arkansas.png
+  - assets/flags/california.png
+  - assets/flags/colorado.png
+  - assets/flags/connecticut.png
+  - assets/flags/dc.png
+  - assets/flags/delaware.png
+  - assets/flags/florida.png
+  - assets/flags/georgia.png
+  - assets/flags/hawaii.png
+  - assets/flags/idaho.png
+  - assets/flags/illinois.png
+  - assets/flags/indiana.png
+  - assets/flags/iowa.png
+  - assets/flags/kansas.png
+  - assets/flags/kentucky.png
+  - assets/flags/louisiana.png
+  - assets/flags/maine.png
+  - assets/flags/maryland.png
+  - assets/flags/massachusetts.png
+  - assets/flags/michigan.png
+  - assets/flags/minnesota.png
+  - assets/flags/mississippi.png
+  - assets/flags/missouri.png
+  - assets/flags/montana.png
+  - assets/flags/nebraska.png
+  - assets/flags/nevada.png
+  - assets/flags/newhampshire.png
+  - assets/flags/newjersey.png
+  - assets/flags/newmexico.png
+  - assets/flags/newyork.png
+  - assets/flags/northcarolina.png
+  - assets/flags/northdakota.png
+  - assets/flags/ohio.png
+  - assets/flags/oklahoma.png
+  - assets/flags/oregon.png
+  - assets/flags/pennsylvania.png
+  - assets/flags/rhodeisland.png
+  - assets/flags/southcarolina.png
+  - assets/flags/southdakota.png
+  - assets/flags/tennessee.png
+  - assets/flags/texas.png
+  - assets/flags/utah.png
+  - assets/flags/vermont.png
+  - assets/flags/virginia.png
+  - assets/flags/washington.png
+  - assets/flags/westvirginia.png
+  - assets/flags/wisconsin.png
+  - assets/flags/wyoming.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -75,6 +127,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: SairaCondensed
+      fonts:
+        - asset: assets/fonts/SairaCondensed-ExtraLight.ttf
+          weight: 200        
+        - asset: assets/fonts/SairaCondensed-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SairaCondensed-Bold.ttf
+          weight: 700          
   # fonts:
   #   - family: Schyler
   #     fonts:

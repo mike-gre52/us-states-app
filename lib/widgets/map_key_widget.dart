@@ -19,7 +19,12 @@ class MapKey extends StatelessWidget {
             borderRadius: BorderRadius.circular(3),
           ),
         ),
-        Text(': $keyName')
+        Text(
+          ': $keyName',
+          style: TextStyle(
+            fontSize: 22,
+          ),
+        )
       ],
     );
   }

@@ -10,9 +10,9 @@ class MapLayout extends StatelessWidget {
     final height = mediaQuery.size.height;
     final width = mediaQuery.size.width;
 
-    final containerHeight = height * 0.45;
+    final containerHeight = (height / 28) * 14;
     final containerWidth = width * 0.975;
-    final singleTileHeight = (containerWidth / 11) - 5;
+    final singleTileHeight = (height / 28);
 
     final columnWidth = (containerWidth / 11) - 1;
     final columnHeight = (singleTileHeight + 5) * 8;
@@ -91,11 +91,12 @@ class MapLayout extends StatelessWidget {
           child: Column(
             children: [
               MapSpacer(),
-              MapSpacer(),
               MapTile('MN'),
+              MapTile('WI'),
               MapTile('IA'),
               MapTile('MO'),
               MapTile('AR'),
+              MapTile('MS'),
               MapTile('LA'),
             ],
           ),
@@ -107,12 +108,12 @@ class MapLayout extends StatelessWidget {
           child: Column(
             children: [
               MapSpacer(),
-              MapTile('WI'),
+              MapSpacer(),
               MapTile('IL'),
               MapTile('IN'),
               MapTile('KY'),
               MapTile('TN'),
-              MapTile('MS'),
+              MapTile('AL'),
             ],
           ),
         ),
@@ -128,7 +129,7 @@ class MapLayout extends StatelessWidget {
               MapTile('OH'),
               MapTile('WV'),
               MapTile('NC'),
-              MapTile('AI'),
+              MapTile('GA'),
             ],
           ),
         ),
@@ -142,9 +143,9 @@ class MapLayout extends StatelessWidget {
               MapSpacer(),
               MapSpacer(),
               MapTile('PA'),
+              MapTile('DC'),
               MapTile('VA'),
               MapTile('SC'),
-              MapTile('GA'),
             ],
           ),
         ),
@@ -159,7 +160,7 @@ class MapLayout extends StatelessWidget {
               MapTile('NY'),
               MapTile('NJ'),
               MapTile('MD'),
-              MapTile('DC'),
+              MapSpacer(),
               MapSpacer(),
               MapTile('FL'),
             ],

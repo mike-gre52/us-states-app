@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:us_states_app/widgets/map_counter_widget.dart';
 import 'package:us_states_app/widgets/map_key_widget.dart';
 
 import 'map_layout.dart';
@@ -10,26 +11,23 @@ class MapGrid extends StatelessWidget {
     final height = mediaQuery.size.height;
     final width = mediaQuery.size.width;
 
+    final singleTileHeight = (height / 28);
+    final columnHeight = (singleTileHeight + 5) * 8;
     return Column(
       children: [
         Container(
-          //margin: EdgeInsets.only(top: height * 0.1),
-          height: height * 0.45,
+          margin: EdgeInsets.only(top: height * 0.01),
+          height: columnHeight + (height * 0.07),
           width: width * 0.975,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(10.0),
-              bottomLeft: Radius.circular(10.0),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 1,
+                color: Colors.grey.withOpacity(1),
+                spreadRadius: 2,
                 blurRadius: 4,
-                offset: const Offset(0, 6),
               ),
             ],
-            //Color.fromRGBO(237, 231, 209, 0.9)
             color: const Color.fromRGBO(204, 204, 204, 1),
           ),
           child: Column(
@@ -39,15 +37,16 @@ class MapGrid extends StatelessWidget {
                 child: MapLayout(),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 15),
+                margin: EdgeInsets.only(top: height * 0.01),
                 height: height * 0.05,
                 width: double.infinity,
                 color: const Color.fromRGBO(204, 204, 204, 1.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    MapKey('Visited', Colors.green),
-                    MapKey('Unvisited', const Color.fromRGBO(179, 37, 32, 0.5)),
+                    MapKey('Visited', const Color.fromRGBO(64, 156, 74, 0.9)),
+                    MapKey('Unvisited', const Color.fromRGBO(179, 23, 18, 0.5)),
+                    MapCounter(),
                   ],
                 ),
               ),

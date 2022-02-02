@@ -22,10 +22,16 @@ class _MapTileState extends State<MapTile> {
 
     final containerHeight = height * 0.45;
     final containerWidth = width * 0.975;
-    final tileWidth = (containerWidth / 11) - 5;
-    final tileHeight = (containerHeight * 0.70) / 8;
+    final tileWidth = width / 12;
+    final tileHeight = height / 28;
 
     final currentMapId = userMaps.currentId;
+    final currestStateSelected = userMaps.currentStateSelected;
+    bool shouldHighlight = false;
+
+    if (currestStateSelected == widget.state) {
+      shouldHighlight = true;
+    }
 
     List<Map<String, List>> selectedStates =
         userMaps.getStatesSelected(currentMapId);
@@ -43,35 +49,58 @@ class _MapTileState extends State<MapTile> {
       }
     }
 
+    var tileLength;
+    if (tileWidth < tileHeight) {
+      tileLength = tileWidth;
+    } else {
+      tileLength = tileHeight;
+    }
     final tileColor = shouldColorChange
-        ? Colors.green
-        : const Color.fromRGBO(179, 37, 32, 0.5);
-    return GestureDetector(
-      child: Container(
-        margin: const EdgeInsets.only(right: 5, bottom: 5),
-        height: tileWidth,
-        width: tileWidth,
-        decoration: BoxDecoration(
-          //border: Border.all(width: 1),
-
-          color: tileColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Center(
-          child: Text(
-            widget.state,
+        ? const Color.fromRGBO(64, 156, 74, 0.9)
+        : const Color.fromRGBO(179, 23, 18, 0.5);
+    final border = shouldHighlight ? Border.all(width: 0.5) : null;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minWidth: 20,
+        minHeight: 20,
+        maxHeight: 60,
+        maxWidth: 60,
+      ),
+      child: GestureDetector(
+        child: Container(
+          margin: const EdgeInsets.only(right: 5, bottom: 5),
+          height: tileHeight,
+          width: tileHeight,
+          decoration: BoxDecoration(
+            border: border,
+            color: tileColor,
+            borderRadius: BorderRadius.circular(1),
+          ),
+          child: Center(
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                widget.state,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w300,
+                  //color: Color.fromRGBO(36, 36, 36, 1.0),
+                ),
+              ),
+            ),
           ),
         ),
+        onTap: () {
+          userMaps.currentStateSelected = widget.state;
+          userMaps.addSelectedState(
+            widget.state,
+            'unvisited',
+            currentMapId,
+            null,
+          );
+          setState(() {});
+        },
       ),
-      onTap: () {
-        userMaps.currentStateSelected = widget.state;
-        userMaps.addSelectedState(
-          widget.state,
-          'visited',
-          currentMapId,
-        );
-        setState(() {});
-      },
     );
   }
 }
